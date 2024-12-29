@@ -1,4 +1,4 @@
--- Teleport to World 1
+-- Teleport to World 123
 if game.PlaceId ~= 8737899170 then
     repeat
         game.ReplicatedStorage.Network.World1Teleport:InvokeServer()

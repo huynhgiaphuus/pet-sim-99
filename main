@@ -1,0 +1,72 @@
+-- Teleport to World 1
+if game.PlaceId ~= 8737899170 then
+    repeat
+        game.ReplicatedStorage.Network.World1Teleport:InvokeServer()
+        task.wait(5)
+    until game.PlaceId == 8737899170
+end
+
+-- Hàm an toàn để chạy loadstring
+local function safeLoadString(url)
+    local success, result = pcall(function()
+        return loadstring(game:HttpGet(url))()
+    end)
+    if not success then
+        warn("Error loading script from URL: " .. url .. "\n" .. result)
+    end
+end
+
+-- Daycare
+spawn(function()
+getgenv().maxslot = 30
+repeat wait() until game:IsLoaded()
+local v2 = require(game.ReplicatedStorage.Library.Client.DaycareCmds)
+repeat
+    wait()
+    if v2.GetMaxSlots() < getgenv().maxslot then
+        game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("DaycareSlotVoucher_Consume")
+            :InvokeServer()
+    end
+    task.wait(1)
+until v2.GetMaxSlots() >= getgenv().maxslot
+    safeLoadString("https://api.luarmor.net/files/v3/loaders/f420cbd8fa65c531f13fd0d569bc3300.lua")
+end)
+
+-- Gift daycare ticket
+spawn(function()
+    safeLoadString("https://gist.githubusercontent.com/huynhgiaphuus/87ae10688dab307122da8e71d9feb1a7/raw/gift%2520daycare%2520ticket")
+end)
+
+-- Config script event
+spawn(function()
+    getgenv().Config = {
+        ["EquipEnchants"] = {"Lucky Eggs", "Lucky Eggs", "Lucky Eggs", "Strong Pets", "Coins", "Shiny Hunter"},
+        ["SnowstormSurvival"] = true,
+        ["Mailing"] = {
+            ["Usernames"] = {"acccuamchien"},
+            ["Items"] = {
+                ["Misc"] = {
+                    ["Lockpick A"] = 50,
+                    ["Lockpick B"] = 15,
+                    ["Lockpick C"] = 3,
+                },
+                ["Currency"] = {
+                    ["Diamonds"] = 50000000,
+                },
+                ["Lootbox"] = {
+                    ["Hype Egg"] = 5,
+                    ["Jolly Gift"] = 5,
+                },
+                ["Egg"] = {
+                    ["Huge Machine Egg 4"] = 1,
+                },
+            },
+            ["MailAllHuges"] = true --// False will mail all new huges, True will send all huges in inventory
+        },
+        ["Notifications"] = {
+            ["UserID"] = "1073097570190110770",
+            ["Webhook"] = "https://discord.com/api/webhooks/1303029426522423326/R_8pbp6hS-KZrLunzijqGpqaYlK1RlTVpsojGHUheB2QLYdFk3XEJ7jjoH4ysuaGKiS7"
+        }
+    }
+    safeLoadString("https://api.luarmor.net/files/v3/loaders/b883bc159a5f609adb4871db6fc15ea8.lua")
+end)
